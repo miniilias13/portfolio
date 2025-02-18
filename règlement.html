@@ -1,0 +1,1207 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Règlement - STARSFA</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background: url('bg.png') no-repeat center center/cover;
+            overflow: hidden;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: calc(100% - 40px);
+            margin: 0 20px;
+            background: transparent;
+            color: white;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+        .navbar .logo {
+            margin-left: 10px;
+        }
+        .navbar .menu-container {
+            display: flex;
+            align-items: center;
+        }
+        .navbar .text-buttons {
+            display: flex;
+            gap: 20px;
+            margin-right: 20px;
+            align-items: center;
+        }
+        .navbar .text-buttons a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 0;
+            position: relative;
+        }
+        .navbar .text-buttons a::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: white;
+            margin: 10px auto 0;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: width 0.4s ease-out;
+        }
+        .navbar .text-buttons a.active::after {
+            width: 55%;
+        }
+        .navbar .text-buttons a:hover::after {
+            width: 60%;
+        }
+        .navbar .text-buttons a.active {
+            font-weight: bold;
+        }
+        .navbar .menu {
+            display: flex;
+            gap: 10px;
+        }
+        .navbar .menu a {
+            color: white;
+            text-decoration: none;
+            background: rgba(69, 8, 89, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            opacity: 1;
+        }
+        .navbar .menu a img {
+            width: 24px;
+            height: 24px;
+        }
+        .content-box {
+            width: 80%;
+            height: 80vh;
+            background: rgba(128, 128, 128, 0.2);
+            border: 3px solid rgba(128, 128, 128, 0.8);
+            border-radius: 15px;
+            margin: 100px auto 0;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow-y: auto;
+        }
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+        .button-grid .full-width {
+            grid-column: span 2;
+            text-align: center;
+        }
+        .button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(50, 50, 50, 0.7);
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .button:hover {
+            background: rgba(50, 50, 50, 0.9);
+        }
+        .dropdown {
+            display: none;
+            margin-top: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 10px;
+            color: white;
+        }
+        .dropdown .sub-button {
+            display: block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            transition: background 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .dropdown .sub-button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        .rules-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            text-align: left;
+            color: white;
+            width: 100%;
+            max-width: calc(100% - 40px);
+        }
+        .trail {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+    </style>
+    <script>
+        function toggleDropdown(id) {
+            let dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(drop => {
+                if (drop.id !== id) {
+                    drop.style.display = 'none';
+                }
+            });
+            let dropdown = document.getElementById(id);
+            dropdown.style.display = dropdown.style.display === 'none' || dropdown.style.display === '' ? 'block' : 'none';
+        }
+
+        function showRules(sectionId) {
+            let sections = document.querySelectorAll('.rules-section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            let section = document.getElementById(sectionId);
+            section.style.display = 'block';
+        }
+        
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="Logo" height="60">
+        </div>
+        <div class="menu-container">
+            <div class="text-buttons">
+                <a href="/">Accueil</a>
+                <a href="#" class="active">Règlement</a>
+                <a href="boutique.html">Boutique</a>
+                <a href="streameurs.html">Streameurs</a>
+            </div>
+            <div class="menu">
+                <a href="#tiktok">
+                    <img src="tiktok.webp" alt="TikTok">
+                </a>
+                <a href="#x">
+                    <img src="x.png" alt="X">
+                </a>
+                <a href="#ytb">
+                    <img src="ytb.webp" alt="YouTube">
+                </a>
+                <a href="#discord">
+                    <img src="discord.webp" alt="Discord">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="content-box">
+        <h2>Règlement</h2>
+        <div class="button-grid">
+            <div class="button" onclick="toggleDropdown('global-dropdown')">💻 Global</div>
+            <div class="button" onclick="toggleDropdown('legal-dropdown')">🎓 Légal</div>
+            <div class="button full-width" onclick="toggleDropdown('illegal-dropdown')">🌿 Illégal</div>
+            <div class="button full-width" onclick="toggleDropdown('notionrp-dropdown')">🎤 Notion RP</div>
+        </div>
+        <div id="global-dropdown" class="dropdown">
+            <div class="sub-button" onclick="showRules('discord-rules')">Discord</div>
+            <div class="sub-button" onclick="showRules('general-rules')">Général/HRP</div>
+            <div class="sub-button" onclick="showRules('important-rules')">Important</div>
+            <div class="sub-button" onclick="showRules('vehicule-rules')">Gestions des véhicules</div>
+        </div>
+        <div id="legal-dropdown" class="dropdown">
+            <div class="sub-button" onclick="showRules('sasp-rules')">SASP SUD / SASP NORD</div>
+            <div class="sub-button" onclick="showRules('ems-rules')">SAMC</div>
+            <div class="sub-button" onclick="showRules('government-rules')">Gouvernement</div>
+            <div class="sub-button" onclick="showRules('business-rules')">Entreprises</div>
+            <div class="sub-button" onclick="showRules('real-estate-rules')">Immobilier</div>
+            <div class="sub-button" onclick="showRules('death-rp-rules')">Mort RP</div>
+        </div>
+        <div id="illegal-dropdown" class="dropdown">
+            <div class="sub-button" onclick="showRules('illegal-rules')">Règles Illégal</div>
+        </div>
+        <div id="notionrp-dropdown" class="dropdown">
+            <div class="sub-button" onclick="showRules('notionrp-rules')">NOTION RP</div>
+        </div>
+
+        <div id="discord-rules" class="rules-section">
+            <h3>Règles Discord</h3>
+            <h4>✅ Respect et bienveillance</h4>
+            <p>Faites preuve de respect envers chaque membre. Tout comportement abusif, insultant ou discriminatoire (harcèlement, intimidation, discours haineux, racisme, homophobie, sexisme, etc.) est strictement interdit.</p>
+            
+            <h4>🚫 Contenu inapproprié ou illégal</h4>
+            <p>Tout partage de contenu illégal, inapproprié ou offensant (images, vidéos, liens, etc.) est prohibé.</p>
+            
+            <h4>❌ Pas de spam ni de publicité</h4>
+            <p>La publicité et le spam, que ce soit dans les salons ou en messages privés, ne sont pas autorisés sans accord préalable.</p>
+            
+            <h4>🔒 Protection des données personnelles</h4>
+            <p>Ne partagez jamais d’informations personnelles (les vôtres ou celles d’autrui) sans consentement explicite.</p>
+            
+            <h4>📝 Respect des salons</h4>
+            <p>Chaque canal a un but précis : utilisez-les à bon escient et évitez le hors-sujet.</p>
+            
+            <h4>🛑 Modération et sanctions</h4>
+            <ul>
+                <li>Les propos vulgaires, insultants ou déplacés ne seront pas tolérés.</li>
+                <li>Les modérateurs ont le dernier mot en cas de litige. Si un problème survient, contactez un administrateur.</li>
+            </ul>
+            
+            <h4>⚠️ Évolution des règles</h4>
+            <p>Les règles peuvent être mises à jour à tout moment. Il est de votre responsabilité de vous tenir informé des éventuelles modifications.</p>
+            
+            <h4>❗ Sanctions</h4>
+            <p>Tout non-respect des règles peut entraîner des avertissements, des sanctions temporaires ou un bannissement définitif, selon la gravité de l’infraction.</p>
+            
+            <h4>📩 Tickets</h4>
+            <p>Si vous avez une question ou un problème, utilisez le système de tickets pour contacter l’équipe de modération.</p>
+            
+            <p>Bonne ambiance et bon échange à tous !</p>
+        </div>
+        <div id="general-rules" class="rules-section">
+            <h3>Règles HRP</h3>
+            <h3>🖥️ Graphismes & Modifications de jeu</h3>
+            <p>Pour garantir une expérience de jeu <strong>équitable</strong> et équilibrée pour tous, <strong>toute modification du jeu</strong> est strictement interdite, notamment les points suivants :</p>
+            <h4>❌ Interdictions spécifiques</h4>
+            <ul>
+                <li><strong>Suppression ou modification d’éléments du jeu</strong> : props, objets, eau, buissons, etc.</li>
+                <li><strong>Utilisation de viseurs externes (crosshairs).</strong></li>
+                <li><strong>Effets modifiés</strong> : kill effects (effets de mort), tracer (marqueurs de tir), blood effects (effets de sang), hit effects (effets de coups).</li>
+                <li><strong>Modification du champ de vision (FOV).</strong></li>
+                <li><strong>Utilisation de fichiers ou scripts donnant un avantage</strong> (ex. full stamina).</li>
+            </ul>
+            <h4>⚠️ Sanctions</h4>
+            <p>Toute utilisation de ces modifications est strictement interdite et pourra entraîner des <strong>sanctions immédiates</strong>. Nous comptons sur votre fair-play pour préserver une expérience de jeu juste et agréable pour tous.</p>
+            <p>Merci de respecter ces règles et de jouer dans les meilleures conditions !</p>
+            <h3>💰 Remboursements</h3>
+            <p>Aucun remboursement ne sera effectué pour les raisons suivantes :</p>
+            <h4>❌ Cas non éligibles au remboursement</h4>
+            <ul>
+                <li><strong>Pertes de biens lors d’un reboot du serveur</strong> : Les reboots ont lieu à heure fixe chaque jour. Il est de votre responsabilité d’anticiper et de sécuriser vos biens.</li>
+                <li><strong>Erreurs de virement</strong> : Vérifiez toujours l’identité du destinataire et le montant avant de transférer des fonds.</li>
+                <li><strong>Pertes de biens illégaux en cas de coma ou de déconnexion involontaire</strong> : Vous êtes responsable de la sécurité de vos possessions.</li>
+                <li><strong>Pertes de biens dues à l’inactivité prolongée</strong> : Pensez à relouer vos maisons et appartements pour éviter toute suppression.</li>
+                <li><strong>Vols ou trahisons par des personnes ayant accès à votre propriété</strong> : Il s’agit d’un élément du jeu de rôle, et vous êtes seul responsable de vos décisions.</li>
+                <li><strong>Vols dans les coffres de véhicule et joueurs (seuls moitié des biens) (sauf pour les armes)</strong> : Vous devez assurer la sécurité de vos biens.</li>
+            </ul>
+            <h4>⚠️ Droits de l’administration</h4>
+            <ul>
+                <li>Nous nous réservons le droit de refuser toute demande de remboursement selon les circonstances.
+
+                    Toute réclamation devra être accompagnée de <strong>preuves valides</strong>, sauf dans les cas où un remboursement est strictement impossible.
+                    
+                    Merci de votre compréhension et de votre vigilance.</li>
+            </ul>
+            <h3>📹 Règles pour les Streameurs</h3>
+            <li>Vous êtes libre de streamer sur le serveur, mais certaines règles doivent être respectées pour garantir une expérience positive pour tous.</li>
+            <h4>⛔ Interdictions</h4>
+            <ul>
+                <li><strong>TrashTalk</strong> : Tout comportement irrespectueux envers d’autres joueurs est interdit.</li>
+                <li><strong>Utilisation d’informations HRP via le chat.</strong> : Il est interdit de tirer avantage des informations obtenues via votre chat en direct.</li>
+                <li><strong>Diffusion des interadmin</strong> : Lorsqu’un modérateur intervient, vous devez couper le son et la vidéo.</li>
+                <li><strong>Dénigrement du serveur et/ou de ses membres</strong> : Toute critique nuisible et infondée du serveur ou de ses joueurs est proscrite.</li>
+            </ul>
+            <li>Le non-respect de ces règles peut entraîner des sanctions. Merci de veiller à préserver une ambiance respectueuse et immersive pour votre communauté ! </li>
+            <h3>🙍 Wipe de Personnage</h3>
+            <li>Le wipe consiste à réinitialiser totalement votre personnage. Vous devrez alors créer un nouveau personnage avec une nouvelle histoire.</li>
+            <h4>🔄 Wipe & Mort RP</h4>
+            <h5>☠️ Mort RP & Wipe forcé</h5>
+            <p>Un <strong>wipe</strong> peut être appliqué si votre personnage subit une <strong>Mort RP</strong> validée selon plusieurs critères :</p>
+            <ul>
+                <li>Dossier de Mort RP et historique du personnage.</li>
+                <li>Manque de peur RP lors d’une scène critique.</li>
+                <li>Abus d’actions violentes.</li>
+                <li>Expulsion de votre organisation par votre chef.</li>
+            </ul>
+            <h4>⛔ Interdictions & Règles</h4>
+            <ul>
+                <li><strong>Aucun transfert de biens</strong> : voitures, armes, argent, propriétés, etc... entre joueurs. (Même en donnant vos biens, vous ne pouvez pas les récupérer avec un nouveau personnage ni léguer quoi que ce soit.)</li>
+                <li><strong>Un wipe est impossible si votre compte est en négatif ou si des procédures judiciaires sont en cours contre vous.</strong></li>
+                <li><strong>Passage illégal/légal interdit sans wipe</strong> : Un <strong>ex-membre des forces de l’ordre</strong> (police, EMS, gouvernement) qui commet des actes illégaux peut être <strong>wipe & sanctionné</strong>.</li>
+                <li><strong>Un nouveau personnage ne peut pas être lié à l’ancien</strong> : Vous ne pouvez pas rejoindre la même organisation qu’avec votre ancien personnage.</li>
+            </ul>
+            <p>Le non-respect de ces règles peut entraîner des sanctions sévères. Merci de respecter ces principes pour garantir un <strong>jeu équitable et immersif</strong> !</p>
+        </div>
+        <div id="important-rules" class="rules-section">
+            <h3>⛔ Interdictions strictes</h3>
+            <p>Ces règles visent à garantir une expérience de jeu équitable et respectueuse.</p>
+            <ul>
+                <li><strong>Aucun propos haineux</strong> : Toute forme de racisme, xénophobie, homophobie ou discours incitant à la haine est strictement interdite.</li>
+                <li><strong>Aucun contenu inapproprié</strong> : Il est interdit de partager ou afficher des images ou contenus à caractère religieux, sexuel, haineux ou discriminatoire.</li>
+                <li><strong>Personnages mineurs interdits</strong> : Tous les personnages doivent avoir au moins 21 ans sous peine de sanctions.</li>
+                <li><strong>Vocal externe interdit</strong> : L’utilisation de toute communication externe (Discord, etc.) pour le RP est interdite, même hors connexion.</li>
+                <li><strong>Streamhack interdit</strong> : Il est interdit de regarder un stream en jouant pour en tirer un avantage. Toute infraction sera sévèrement sanctionnée.</li>
+                <li><strong>RP sexuel interdit</strong> : Toute forme de RP à caractère sexuel est prohibée, sans exception.</li>
+                <li><strong>Dialecte HRP interdit en RP</strong> : Des expressions comme "j’ai une GoPro", "faire un ticket", "papillon", etc., ne doivent pas être utilisées en RP.</li>
+                <li><strong>Publicité interdite</strong> : La promotion d’autres serveurs de jeu de rôle est formellement interdite.</li>
+                <li><strong>Exploitation de bugs et glitchs interdite</strong> : Tout usage de bug pour avantager son RP (ex. : traverser des murs, spammer une touche) est prohibé.</li>
+                <li><strong>Aucune transaction d’argent réel</strong> : La vente ou l’achat de biens en échange d’argent réel est strictement interdit.</li>
+                <li><strong>Respect des véhicules d’intérim</strong> : Ces véhicules doivent être utilisés uniquement pour leur activité. Tout usage inapproprié pourra entraîner leur suppression.</li>
+                <li><strong>Cartes bancaires & transactions interdites</strong> : L’achat ou le rachat de cartes bancaires est formellement interdit. De même, il est interdit de faire des annonces illégales sur les applications.</li>
+                <li><strong>Utilisation abusive des matériaux d’entreprise interdite</strong> : Les kits de réparation, bandages EMS, etc., ne doivent être utilisés qu’en service.</li>
+                <li><strong>Tenues de Police/EMS interdites pour les civils</strong> : Il est strictement interdit de porter une tenue de Police ou EMS si vous n’appartenez pas à la faction. Une exception peut être faite avec l’accord du staff dans le cadre d’une scène RP encadrée.</li>
+                <li><strong>Wipe & identité</strong> : Après un wipe, il est interdit de recréer un personnage avec le même nom ou nom de famille ou de venger son ancien personnage.</li>
+                <li><strong>Éviter une arrestation en fuyant à la nage est interdit</strong> : sauf si la scène a été validée et implique des bateaux.</li>
+
+
+            </ul>
+            <h3>🔌 Règles liées au coma & aux déconnexions</h3>
+            <p>Assurez-vous de suivre ces règles en cas de coma ou de déconnexion inopinée.</p>
+            <ul>
+                <li><strong>Trash corps interdit</strong> : Il est formellement interdit d’abuser du corps d’un joueur en coma (ex. : le jeter dans l’eau, le cacher volontairement pour empêcher son secours).</li>
+                <li><strong>Déplacer un corps pour empêcher un sauvetage est interdit</strong> : Déplacer intentionnellement un corps pour l'empêcher d’être secouru est une pratique sanctionnée.</li>
+                <li><strong>Aucune communication en coma</strong> : Un joueur en coma ne peut ni parler via le micro, ni utiliser le chat /me pour communiquer avec d’autres joueurs.</li>
+                <li><strong>Utilisation de /me en coma</strong> : Cette commande ne doit être utilisée que pour décrire la douleur et les ressentis du personnage, et non pour interagir avec d’autres joueurs.</li>
+                <li><strong>Mémoire pré-coma conservée</strong> : Si vous tombez dans le coma, vous ne perdez pas la mémoire des événements ayant conduit à cet état.</li>
+                <li><strong>Aucune vengeance après un coma</strong> : Si vous êtes mis en coma suite à un conflit, vous ne devez pas chercher à vous venger une fois réveillé.</li>
+            </ul>
+        </div>
+        <div id="vehicule-rules" class="rules-section">
+            <h3>🚗 Gestion des Véhicules</h3>
+            <p>Le serveur dispose de plusieurs <strong>systèmes de gestion des véhicules</strong> pour garantir un usage organisé et réaliste. Voici les règles et recommandations à suivre</p>
+            <h4>🚘 Garages Publics</h4>
+            <p>Les <strong>garages publics</strong> sont destinés au <strong>stockage sécurisé</strong> de vos véhicules personnels.</p>
+            <ul>
+                <li><strong>Pourquoi utiliser un garage public ?</strong></li>
+                <ul>
+                    <li>Certains véhicules, comme le <strong>Caracara</strong>, <strong>ne peuvent pas être bâchés</strong> et doivent être rangés dans un garage public pour éviter toute perte.</li>
+                    <li>Ranger vos véhicules ici garantit qu’ils seront toujours disponibles et <strong>ne disparaîtront pas en jeu</strong>.</li>
+                </ul>
+            </ul>
+            <h4>🏢 Garages d’Entreprises</h4>
+            <p>Les <strong>garages d’entreprises</strong> fonctionnent de la même manière que les garages publics, mais sont <strong>réservés aux véhicules professionnels</strong>.</p>
+            <ul>
+                <li><strong>📌 Qui doit utiliser un garage entreprise ?</strong></li>
+                <ul>
+                    <li>Les <strong>salariés et propriétaires</strong> souhaitant sortir un <strong>véhicule de travail</strong> (ex. : le <strong>Rumpobox</strong>, utilisé pour la livraison de quotas).</li>
+                    <li>Toute personne utilisant un <strong>véhicule de société</strong> doit impérativement le garer dans un garage entreprise après usage.</li>
+                </ul>
+            </ul>
+            <h4>⛔ Système de bâches</h4>
+            <p>Le <strong>système de bâches</strong> est <strong>disponible sur la plupart des véhicules</strong>, mais certaines exceptions existent.</p>
+            <ul>
+                <li><strong>📌 À savoir sur le système de bâches :</strong></li>
+                <ul>
+                    <li><strong>Si un véhicule peut être bâché</strong>, assurez-vous <strong>de ne pas l’oublier sur la carte</strong>.</li>
+                    <li><strong>Les véhicules bâchés mal garés sont considérés comme perdus</strong> et seront <strong>récupérables uniquement en fin de mois</strong> après <strong>passage à la fourrière</strong>.</li>
+                    <li>Si votre véhicule <strong>n’est pas bâchable</strong>, <strong>rangez-le impérativement dans un garage public</strong> pour éviter qu’il ne disparaisse.</li>
+                    <li><strong>La fourrière passe en fin de mois</strong> : tout véhicule mal stationné sera envoyé en fourrière et <strong>des pénalités pourront être appliquées</strong> pour négligence RP.</li>
+                </ul>
+            </ul>
+            <p>✅ <strong>Recommandation importante</strong> : <strong>Pensez toujours à ranger vos véhicules dans un garage public avant la fin du mois</strong> pour éviter toute perte inutile.</p>
+        </div>
+        <div id="sasp-rules" class="rules-section">
+            <h3>📜 San Andreas State Police (SASP)</h3>
+            <p>Le <strong>San Andreas State Police (SASP)</strong> est l’organisme chargé du <strong>maintien de l’ordre à Los Santos et dans l’État de San Andreas</strong>. Placé sous la direction du <strong>Chef de la Police</strong>, il supervise l’ensemble des forces de l’ordre, les divisions spécialisées, la police scientifique et le recrutement des agents. Il est également responsable du <strong>respect des lois</strong>, du <strong>contrôle routier</strong>, de la <strong>gestion des enquêtes criminelles</strong> et de la <strong>protection des personnalités publiques</strong>.
+
+                Le SASP est divisé en plusieurs postes, chacun dirigé par un capitaine, avec des affectations possibles à <strong>Sandy Shores, Blaine County, La Mesa et Mission Row</strong>. Tous les citoyens peuvent <strong>postuler</strong> et choisir leur affectation.</p>
+            <h4>🖥️ Rejoindre la Police</h4>
+            <ul>
+                <p>Avant de postuler, vous devez :</p>
+                <li><strong>Rejoindre le Discord</strong> via le lien en haut de cette page.</li>
+                <li><strong>Critères d’éligibilité :</strong></li>
+                <ul>
+                    <li>Avoir <strong>minimum 18 ans HRP</strong>.</li>
+                    <li>Ne pas avoir été <strong>banni temporairement</strong> du serveur.</li>
+                </ul>
+                <li><strong>Préparer votre candidature</strong> avec soin.</li>
+            </ul>
+            <h4>📌 Règlement de la Police</h4>
+            <ul>
+                <li><strong>RP Ripou interdit</strong> <ul> <li>La corruption au sein des forces de l’ordre est strictement interdite. Toutefois, une demande peut être soumise au Staff pour validation.</li></ul></li>
+                <li><strong>Vol & abus de matériel interdit</strong> <ul> <li>Il est formellement interdit de voler des uniformes, véhicules, armes ou équipements des services publics, sous peine de bannissement définitif.</li></ul></li>
+                <li><strong>Aucune double identité</strong> <ul> <li>Les membres du SASP ne peuvent pas exercer une autre profession, ni créer un deuxième personnage (P2). Tout nouveau projet doit être précédé d’un wipe et d’un verrouillage du personnage par l’administration avant tout passage à l’illégal.</li></ul></li>
+                <li><strong>Règles d’intervention</strong>
+                <ul>
+                    <li>Les fouilles ne peuvent être effectuées que pour des raisons valables (ex. : délit constaté).</li>
+                    <li>Les fouilles publiques sont autorisées en fonction du niveau d’alerte de la ville (defcon).</li>
+                    <li>Les policiers doivent être en uniforme en service, et déposer leur équipement dans leur casier lorsqu’ils ne sont pas en service.</li>
+                    <li>Le transfert de matériel de police est interdit (armes, menottes, uniformes, etc.), sous peine de bannissement définitif.</li>
+                </ul>
+            </li>
+                <li><strong>Poursuites et interventions</strong> 
+                <ul>
+                    <li>Le nombre de véhicules de police engagés en poursuite augmente avec la durée de la poursuite (critères établis par l’État-major).</li>
+                    <li>Le PIT (interception d’un véhicule en fuite) est autorisé uniquement à vitesse modérée et sous validation du Command Staff.</li>
+                </ul>
+                </li>
+                <li><strong>🚨 Sanctions & responsabilités</strong> 
+                    <ul>
+                        <li>Tout policier peut être licencié à tout moment par le Command Staff.</li>
+                        <li>Le Command Staff peut aussi être sanctionné en cas de comportement inapproprié.</li>
+                        <li>Les bodycams des agents sont actives en service, et leurs enregistrements peuvent être utilisés par les affaires internes et le département de justice.</li>
+                        <li>Chaque utilisation d’arme à feu doit être justifiée par un rapport. Tout manquement peut entraîner des poursuites par le Ministère de la Justice.</li>
+                        <li>Les munitions des policiers sont comptées, facilitant ainsi la vérification de leur utilisation.</li>                        
+                    </ul>
+                </li>
+                <li><strong>🚨 Zones sécurisées & règles de fair-play</strong> 
+                    <ul>
+                        <li>Les postes de police sont des zones sécurisées (safe zones) : il est interdit d’y braquer, kidnapper ou agresser quelqu’un.</li>
+                        <li>Tout policier exposé à des activités illégales risque la prison à vie ou la peine de mort (fin de personnage).</li>
+                        <li>Le fair-play est essentiel :</li>
+                        <ul>
+                        </ul>
+                            <li>Ne fuyez pas un simple contrôle de police par principe.</li>
+                            <li>Un policier ne peut pas être attiré dans une embuscade simplement à cause de son rôle (ex. : l’appeler sur une scène pour le prendre en otage).</li>
+                        </ul>                    
+                    </ul>
+                </li>
+                <li><strong>🚨 Système judiciaire</strong></li>
+                <ul>
+                    <li>Toute personne arrêtée est considérée coupable jusqu’à preuve du contraire, conformément au code de procédure des États-Unis.</li>
+                    <li>L’accusé ou son avocat doit prouver son innocence.</li>
+                </ul>
+            </ul>
+            <h4>🏦 Règlement de la Prison</h4>
+            <ul>
+                <li>Les détenus doivent respecter un <strong>RP cohérent de prisonnier</strong>.</li>
+                <li>Si vous êtes condamné au TIG (Travaux d’Intérêt Général) ou à l’UC, vous devez respecter la sentence (aucune évasion possible pour le moment).</li>
+                <li>Les évasions ne sont possibles que pendant un convoi, et doivent être bien préparées en RP.</li>
+                <li>La police peut revêtir l’uniforme de gardien pour jouer un RP pénitentiaire.</li>
+                <li>Le bracelet électronique signale votre position toutes les 5 minutes. Il est impossible de le retirer seul.</li>
+            </ul>
+            <h4>📢 Règlement Interne</h4>
+            <ul>
+                <li>Tous les membres du SASP doivent respecter le règlement interne accessible via l’académie Discord.</li>
+                <li>Le non-respect du règlement peut entraîner un licenciement immédiat ou une sanction RP.</li>
+            </ul>
+            <h4>⚖️ Application des Peines</h4>
+            <ul>
+                <li>Tout agent appliquant une amende ou une peine doit respecter le code pénal.</li>
+                <li>Le DOJ et le Staff Police contrôlent les infractions : une facturation abusive peut mener à une exclusion de la faction.</li>
+                <li>Un civil qui refuse de payer une facture peut être sanctionné d’un bannissement temporaire.</li>
+            </ul>
+        </div>
+        <div id="ems-rules" class="rules-section">
+            <h3>🪢 Présentation de la San Andreas Medical Company (SAMC)</h3>
+            <p>La <strong>San Andreas Medical Company (SAMC)</strong> a vu le jour le <strong>11 février 2024</strong> suite à la fusion du <strong>Los Santos Medical Center (LSMC)</strong> et du <strong>Blaine County Medical Center (BCMC)</strong>. Dirigée par trois experts du domaine médical, elle joue un rôle <strong>essentiel</strong> dans la gestion des soins à San Andreas.</p>
+            <p>Grâce à un <strong>corps médical compétent</strong> et des <strong>formations de qualité</strong>, la SAMC couvre un large territoire, assurant une prise en charge rapide et efficace pour tous les citoyens. Grâce à un corps médical compétent et des formations de qualité, la SAMC couvre un large territoire, assurant une prise en charge rapide et efficace pour tous les citoyens.</p>
+        
+            <h3>🚁 Unités spécialisées</h3>
+            <p>La SAMC comprend plusieurs divisions spécifiques, dont :</p>
+            <ul>
+                <li><strong>Search and Rescue</strong> (gestion des sauvetages en montagne, en mer et dans les airs).</li>
+                <li><strong>Services médicaux avancés</strong> : chirurgie, soins psychologiques, obstétrique, laboratoire et médecine légale.</li>
+            </ul>
+            <p>🔹 <strong>Objectif</strong> : Améliorer constamment la qualité des soins, promouvoir la santé publique et répondre aux besoins de la communauté.</p>
+        
+            <h3>🎓 Rejoindre la SAMC</h3>
+            <p>Pour postuler, vous devez :</p>
+            <ul>
+                <li><strong>Rejoindre le Discord</strong> de la faction.</li>
+                <li><strong>Suivre les étapes de candidature</strong> indiquées dans 📢 <strong>Annonces-Publiques</strong>.</li>
+                <li>Être <strong>sûr de votre engagement</strong>. Toute démission précipitée entraînera un <strong>blacklist du service voire des services publics</strong>.</li>
+                <li>Respecter <strong>les attentes et le rôle du personnel médical</strong> sous peine de <strong>sanctions sévères</strong>.</li>
+                <li>Suivre une <strong>formation d’intégration</strong> avant d’être pleinement opérationnel.</li>
+            </ul>
+        
+            <h3>🔨 Règlement HRP EMS</h3>
+        
+            <h4>🚨 Règles générales :</h4>
+            <ul>
+                <li>Un EMS est <strong>un professionnel de la santé</strong> et doit respecter <strong>son rôle et ses responsabilités</strong>.</li>
+                <li><strong>Prise de service obligatoire</strong> : Vous ne pouvez pas soigner quelqu’un <strong>hors service</strong> ou uniquement pour aider une <strong>connaissance personnelle</strong>.</li>
+                <li><strong>Interdiction de soigner sans uniforme</strong> ou en dehors des structures médicales.</li>
+                <li><strong>Respect strict des lois</strong> : Les EMS <strong>ne peuvent pas être impliqués dans des activités illégales</strong>, sauf en cas de <strong>victimisation</strong>.</li>
+                <li><strong>Utilisation des véhicules de service</strong> : 
+                    <ul>
+                        <li><strong>Uniquement à des fins médicales</strong>.</li>
+                        <li><strong>Aucun usage personnel</strong> n'est toléré.</li>
+                    </ul>
+                </li>
+                <li><strong>Interdiction de changement de rôle (illégal -> EMS & vice versa)</strong> :
+                    <ul>
+                        <li>Toute tentative entraînera un <strong>wipe du personnage et un bannissement/blacklist</strong>.</li>
+                    </ul>
+                </li>
+            </ul>
+        
+            <h4>🚨 Soins & réalisme RP</h4>
+            <ul>
+                <li>Les soins doivent être <strong>traités avec sérieux</strong> et <strong>réalisme</strong>.</li>
+                <li><strong>Aucune simplification abusive</strong> : Un simple bandage ne peut pas remplacer un traitement complet pour une fracture ou une blessure grave.</li>
+                <li>Les EMS peuvent émettre des <strong>dossiers de Mort RP médicale</strong> pour certains joueurs en fonction de leur dossier médical.</li>
+            </ul>
+        
+            <h4>🚨 Système ATA (Accès Temporaire à l'Assistance)</h4>
+            <ul>
+                <li>Un <strong>ATA</strong> est appliqué lorsqu’un joueur est victime d’une <strong>blessure grave</strong> (accident, arme blanche, balle, etc.).</li>
+                <li><strong>Durée des restrictions</strong> :
+                    <ul>
+                        <li><strong>Blessures légères à modérées</strong> : 24 à 45 minutes.</li>
+                        <li><strong>Blessures lourdes</strong> : 1 à 24 heures.</li>
+                    </ul>
+                </li>
+            </ul>
+        
+            <h4>🚨 Interdictions spécifiques</h4>
+            <ul>
+                <li><strong>Transport de patients uniquement dans des véhicules adaptés</strong>.</li>
+                <li><strong>Aucune vente/don de matériel médical aux civils hors prescription</strong> → sanction immédiate (BAN).</li>
+                <li><strong>Stockage ou port d’objets EMS hors service</strong> strictement interdit.</li>
+                <li><strong>Usage de la radio EMS hors service interdit</strong> → lourdes sanctions.</li>
+                <li><strong>Un EMS ne peut pas avoir un autre personnage dans l’illégal</strong>.</li>
+                <li><strong>Un EMS ne peut pas exercer un autre job en parallèle</strong>.</li>
+            </ul>
+        
+            <h3>☠️ EMS Illégaux</h3>
+            <p>💡 <strong>Possibilité de cumuler EMS et activités illégales sous conditions</strong> :</p>
+            <ul>
+                <li>Seule une <strong>validation du Staff</strong> permet cette exception.</li>
+                <li>Toute infraction sans validation entraîne un <strong>bannissement définitif</strong>.</li>
+            </ul>
+            <h4>Activités illégales autorisées sous contrôle</h4>
+            <ul>
+                <li><strong>Soins dans un hôpital clandestin</strong>.</li>
+                <li><strong>Participation à des tournois de boxe clandestins, bagarres sauvages</strong>.</li>
+                <li><strong>Récupération discrète d’armes lors de soins après une fusillade</strong>.</li>
+                <li><strong>L’EMS peut choisir deux groupes criminels à prendre en charge médicalement</strong>.</li>
+            </ul>
+            <p>⚠️ <strong>Une seule intervention par semaine est autorisée</strong> pour des groupes hors réseau sous conditions strictes.</p>
+            <p>📄 <strong>Un règlement détaillé encadre ces pratiques et est uniquement accessible aux joueurs validés par le Staff.</strong></p>
+        
+            <h3>💊 Règlement Interne</h3>
+            <p>Tous les membres de la SAMC adhèrent automatiquement au <strong>règlement interne</strong> dès leur intégration.</p>
+            <ul>
+                <li>Son non-respect peut entraîner un <strong>licenciement immédiat</strong> ou des <strong>sanctions RP</strong>.</li>
+                <li>Ce règlement est consultable via le <strong>site web ou le manuel interne</strong>.</li>
+            </ul>
+        
+            <h3>⚡ Mort RP Médicale</h3>
+            <ul>
+                <p>👁️ <strong>Les Mort RP sont attribuées de manière sélective et contrôlée</strong>.</p>
+                <li>Seuls les <strong>médecins autorisés</strong> peuvent initier une Mort RP de leur propre initiative.</li>
+                <li>📌 <strong>Cas particuliers</strong> : Si un joueur souhaite mourir mais que l’icône <strong>n’est pas cochée</strong>, il doit être <strong>placé en coma artificiel</strong> et signalé immédiatement au <strong>Staff avec son identifiant</strong>.</li>
+                <li>Un indicateur visuel est disponible :
+                    <ul>
+                        <li>Lors de l'utilisation d’un <strong>stéthoscope</strong>, une <strong>icône de tête de mort</strong> apparaît en bas à droite.</li>
+                        <li>Si elle est cochée ✅, le personnage est <strong>considéré comme décédé</strong>.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div id="government-rules" class="rules-section">
+            <h3>📜 Gouvernement & DOJ</h3>
+            <p>Le Gouvernement de San Andreas, dirigé par le Gouverneur, est l'autorité suprême de l’État, accompagné de son cabinet ministériel. Son rôle est d’assurer le bon fonctionnement des institutions, de mettre en place des politiques publiques et de superviser l’ensemble des services étatiques.</p>
+            <h4>🗳 Élections & Gouvernance</h4>
+            <ul>
+                <li><strong>Des élections seront organisées afin de permettre aux citoyens de voter pour leur gouverneur et son équipe.</strong></li>
+                <li><strong>Candidature au poste de Gouverneur :</strong></li>
+                <ul>
+                    <li>Toute personne souhaitant se présenter doit contacter le Staff pour officialiser sa candidature.</li>
+                    <li>Une campagne électorale RP doit être menée (contacts avec les médias, réunions publiques, débats, etc.).</li>
+                </ul>
+            </ul>
+            <h4>⚖️ Le DOJ et son indépendance</h4>
+            <p>Le <strong>Département de la Justice (DOJ)</strong> est <strong>indépendant</strong> du gouvernement. Bien qu’ils travaillent étroitement ensemble, aucun des deux n’a de supériorité sur l’autre.</p>
+            <p><strong>📌 Critères d’éligibilité :</strong></p>
+            <ul>
+                <li><strong>Minimum 17 ans HRP.</strong></li>
+                <li><strong>Aucun bannissement temporaire sur le serveur.</strong></li>
+            </ul>
+            <h3>📌 Règlement Général</h3>
+            <p><strong>🚨 Interdictions strictes :</strong></p>
+            <ul>
+                <li><strong>RP illégal interdit</strong> : Impossible de postuler ou de déposer un dossier pour un RP corrompu.</li>
+                <li><strong>Vol de matériel public interdit</strong> : Toute tentative de vol d'équipement du gouvernement ou du DOJ entraînera un bannissement définitif.</li>
+                <li><strong>Aucune double profession</strong> : Un membre du gouvernement ou du DOJ ne peut pas exercer un autre métier sans autorisation du Staff.</li>
+                <li><strong>Aucun deuxième personnage (P2)</strong> Aucun deuxième personnage (P2) n’est autorisé pour les membres du gouvernement/DOJ.</li>
+                <li><strong>Transfert de matériel interdit</strong> : Passible de bannissement définitif.</li>
+                <li><strong>Licenciement à tout moment :</strong></li>
+                <ul>
+                    <li>Le lead de la faction peut vous révoquer sans préavis.</li>
+                    <li>Un gestionnaire peut être sanctionné s'il ne respecte pas ses fonctions.</li>
+                </ul>
+                <li><strong>Les locaux du gouvernement et tribunaux sont des zones sécurisées (safe zones) :</strong></li>
+                <ul>
+                    <li>Aucune agression, braquage ou enlèvement ne peut y avoir lieu.</li>
+                </ul>
+                <li>Tout membre exposé à des activités illégales risque la prison à vie ou la peine de mort (fin de personnage).</li>
+                <li><strong>Pièges & embuscades interdites :</strong></li>
+                <ul>
+                    <li>Il est interdit d'attirer un membre du gouvernement ou du DOJ dans une embuscade en raison de son rôle.</li>
+                    <li>Prendre en otage un membre du gouvernement/DOJ doit être prémédité et bien justifié en RP.</li>
+                </ul>
+            </ul>
+            <h4>🏦 Règlement du DOJ</h4>
+            <p>Le <strong>Département de la Justice (DOJ)</strong> assure l’application des lois et la gestion des affaires judiciaires à San Andreas.</p>
+            <p><strong>📌 Principes de fonctionnement :</strong></p>
+            <ul>
+                <li>Les informations confidentielles doivent être traitées avec soin et ne doivent pas être divulguées sans autorisation.</li>
+                <li><strong>Responsabilité et rigueur :</strong></li>
+                <ul>
+                    <li>Chaque membre doit assumer ses tâches et respecter les délais.</li>
+                    <li>Une utilisation abusive des ressources entraînera des sanctions.</li>
+                </ul>
+                <li><strong>Communication contrôlée :</strong></li>
+                <ul>
+                    <li>Toute interaction avec les médias ou organismes externes doit passer par les canaux officiels.</li>
+                </ul>
+                <li><strong>Application stricte des lois :</strong></li>
+                <ul>
+                    <li>Tout agent du DOJ doit respecter le code pénal et appliquer les sanctions en conséquence.</li>
+                    <li>Les cabinets d'avocats sont soumis aux mêmes règles que le DOJ.</li>
+                </ul>
+                <li><strong>Impartialité & respect du droit :</strong></li>
+                <ul>
+                    <li>Toute personne arrêtée ou inculpée est présumée coupable, sauf si l’accusé ou son avocat prouve le contraire.</li>
+                </ul>
+                <li><strong>🚨 Interdictions & Sanctions :</strong></li>
+                <ul>
+                    <li>Aucune implication dans l’illégalité : Un membre du DOJ qui collabore avec des criminels risque un bannissement permanent.</li>
+                </ul>
+            </ul>
+            <h4>🏛 Règlement du Gouvernement</h4>
+            <p>Le <strong>Gouvernement de San Andreas</strong> est chargé de l’administration de l’État, de la gestion des ressources publiques et de l’organisation des élections.</p>
+            <p><strong>📌 Fonctionnement du Gouvernement :</strong></p>
+            <ul>
+                <li>Les informations confidentielles doivent être traitées avec la plus grande discrétion.</li>
+                <li>Des élections sont organisées tous les 5 mois pour élire le gouverneur et son équipe.</li>
+                <li>Responsabilité et rigueur :</li>
+                <ul>
+                    <li>Chaque membre doit respecter ses engagements et respecter les délais.</li>
+                    <li>Toute mauvaise gestion des ressources entraînera des sanctions.</li>
+                </ul>
+                <li>Communication officielle :</li>
+                <ul>
+                    <li>Les interactions avec les médias et autres organismes passent uniquement par les canaux officiels.</li>
+                </ul>
+                <li>Neutralité absolue :</li>
+                <ul>
+                    <li>Aucune implication dans des activités illégales sous peine de bannissement permanent.</li>
+                </ul>
+            </ul>
+
+            <h4>📢 Règlement Interne</h4>
+            <p>Le <strong>Gouvernement & DOJ</strong> disposent d’un règlement interne que tous les membres acceptent automatiquement en rejoignant la faction.</p>
+            <p><strong>📌 À savoir :</strong></p>
+            <ul>
+                <li>Non-respect = licenciement immédiat ou sanction RP.</li>
+                <li>Le règlement est consultable via l’académie Discord.</li>
+            </ul>
+            <h4>⚖️ Application des Peines</h4>
+            <p>Le <strong>DOJ</strong> Le DOJ est responsable de l’application des peines les plus importantes, allant de quelques jours de prison jusqu’à la prison à vie.</p>
+            <p><strong>📌 Règles à suivre :</strong></p>
+            <ul>
+                <li>Documenter toutes les procédures pour assurer une justice équitable.</li>
+                <li>Être impartial et juste dans le jugement des joueurs.</li>
+                <li>Ne pas abuser du pouvoir :</li>
+                <ul>
+                    <li>Le DOJ a un impact direct sur l’avenir des personnages, il est essentiel de ne pas en abuser.</li>
+                </ul>
+                <li>🚨 Emprisonnement à vie & peines longues :</li>
+                <ul>
+                    <li>Toute peine de prison à vie ou longue durée doit être validée par le Staff qui gère le gouvernement.</li>
+                </ul>
+            </ul>
+        </div>
+        <div id="business-rules" class="rules-section">
+            <h3>🌐 Règlement des Entreprises & Secteurs d’Activité</h3>
+            <p>Sur le serveur, les entreprises doivent respecter un cadre strict afin d’assurer un environnement RP réaliste et équilibré.</p>
+            <h4><strong>📌 Règles Générales</strong></h4>
+            <p><strong>Respect des Lois et du Cadre RP</strong></p>
+            <ul>
+                <li>Toutes les entreprises doivent respecter le Code des taxes, du travail et des entreprises mis en place par le gouvernement.</li>
+                <li>L'utilisation de Discord pour des activités RP (réunions, commandes, ventes, etc.) est interdite, sauf pour :</li>
+                <ul>  
+                    <li>Réception des candidatures.</li>
+                    <li>Activités gouvernementales (impôts, création/reprise d’entreprises, rendez-vous spécifiques) avec présence d’une secrétaire RP.</li>
+                    <li>Affichage du règlement, catalogue ou carte.</li>
+                    <li>Annonces et discussions internes entre employés.</li>
+                    <li>SAMC (système de communication et d’urgences uniquement).</li>
+                    <li>Tout autre échange doit se faire en RP uniquement.</li>
+                </ul>
+            </ul>
+            <p><strong>Gestion Financière et Blanchiment</strong></p>
+            <ul>
+                <li>L’argent de l’entreprise ne vous appartient pas → Toute dépense doit être justifiée comme étant liée à l’activité professionnelle.</li>
+                <li>Interdiction d’utiliser les fonds de l’entreprise à des fins personnelles.</li>
+                <li>Blanchiment limité à 100 000 $ par semaine (pour soi-même ou pour un groupe illégal).</li>
+                <li>Interdiction de vendre des véhicules d’entreprise à des particuliers → Les ventes doivent passer par le concessionnaire officiel.</li>
+            </ul>
+            <p><strong>Gestion des Employés et Entreprises</strong></p>
+            <ul>
+                <li>Cession d’entreprise : Toute revente ou abandon d’entreprise doit être validé par le gouvernement. En cas de wipe ou de mort RP, vous devez également en informer le gouvernement.</li>
+                <li>Interdiction d’avoir plusieurs de vos personnages dans la même entreprise.</li>
+                <li>Les patrons et co-patrons ne peuvent pas vendre leurs biens personnels à leur propre entreprise.</li>
+                <li>Limite de 80 employés par entreprise, direction incluse.</li>
+                <li>Interdiction d’occuper un poste de direction dans deux entreprises en même temps (que ce soit avec le même personnage ou un autre).</li>
+                <li>Un joueur ne peut être employé que dans deux entreprises de secteurs différents (ex. : Auto Exotic & Weazel News = ✅, Auto Exotic & Bennys = ❌).</li>
+                <li>Délai de réembauche après un wipe : Une personne ayant subi un wipe ne peut pas être réembauchée avant 3 semaines.</li>
+            </ul>
+            <p><strong>Gestion des Employés et Entreprises</strong></p>
+            <ul>
+                <li>Interdiction de prendre son service uniquement pour effectuer une tâche unique (ex. : faire une réparation, vendre un produit, puis partir immédiatement).</li>
+                <li>Les licenciements doivent être justifiés RP. Si la raison est HRP, elle doit être validée par le staff.</li>
+                <li>Les entreprises officielles représentent l’image du serveur :</li>
+                <ul>
+                    <li>Les PDG et employés doivent adopter un comportement exemplaire.</li>
+                    <li>Tout manquement entraînera des sanctions sévères de la part du staff.</li>
+                </ul>
+            </ul>
+
+            <h4>🚗 Métiers & Entreprises Spécifiques</h4>
+            <p><strong>👨‍🔧 Mécaniciens</strong></p>
+            <ul>
+                <li>Obligation de restituer les kits de réparation dans le stock de l’entreprise à la fin du service.</li>
+                <li>Sanction en cas de stockage personnel ou de déconnexion avec du matériel.</li>
+                <li>Utilisation prioritaire des dépanneuses pour les interventions.</li>
+                <li>Possibilité d’utiliser des pick-ups adaptés pour des dépannages simples.</li>
+                <li>Interdiction de commencer son service uniquement pour dépanner un ami.</li>
+            </ul>
+            <p><strong>🎤 Maisons de Disques & Labels</strong></p>
+            <ul>
+                <li>Publication exclusive des contenus musicaux sur la chaîne YouTube dédiée (ULM ou Underdogs).</li>
+                <li>Contrôle de qualité : Toute musique doit être écoutée avant publication pour vérifier sa conformité.</li>
+                <li>Contrôle de qualité : Toute musique doit être écoutée avant publication pour vérifier sa conformité.</li>
+            </ul>
+            <p><strong>🚘 Concessionnaires</strong></p>
+            <ul>
+                <li>Cautions pour location : Ne doivent pas dépasser 15 000 $.</li>
+                <li>Rachat de véhicules uniquement si présents dans le catalogue de l’entreprise (marché de l’occasion).</li>
+                <li>Location autorisée pour tous les véhicules, même s’ils ne figurent pas dans le catalogue.</li>
+                <li>Retour fournisseur possible pour les véhicules d’occasion, avec rachat à 80 % du prix usine.</li>
+                <ul>
+                    <li>Démarches à effectuer sur Discord entreprise (avec ID des véhicules concernés).</li>
+                </ul>
+            </ul>
+            <p><strong>📰 Presse ( Weazel News)</strong></p>
+            <ul>
+                <li>Entreprises 100 % légales → Les membres de la direction ne peuvent pas commettre d’actes illégaux.</li>
+                <li>Les autres employés peuvent avoir des activités illégales, sous réserve de RP cohérent.</li>
+                <li>Publication exclusive sur la chaîne YouTube dédiée (Weazel News).</li>
+            </ul>
+            <p><strong>🦺 Agents de Sécurité</strong></p>
+            <ul>
+                <li>Menottes à restituer après chaque service → stockage en coffre d’entreprise.</li>
+                <li>Interdiction de conserver les menottes sur soi en fin de service sous peine de sanction du staff.</li>
+            </ul>
+            <p>En respectant ces règles, vous contribuez à un RP réaliste, équilibré et immersif pour tous.
+
+                Merci de jouer de manière responsable et de respecter les structures mises en place sur le serveur ! 🚀</p>
+
+        </div>
+        <div id="real-estate-rules" class="rules-section">
+            <h3>👤 Règlement des Joueurs & Immobilier</h3>
+            <p>Le secteur immobilier sur le serveur est encadré par des règles strictes afin d'assurer une gestion cohérente des propriétés et une immersion RP équilibrée.</p>
+            <p><strong>🏠 Gestion des Biens Immobiliers</strong></p>
+            <ul>
+                <li>Inactivité & suppression des biens :</li>
+                <ul>
+                    <li>Un bien non loué ou inutilisé pendant 14 jours peut être supprimé par un agent immobilier afin d’être remplacé par un autre bien.</li>
+                    <li>La suppression automatique après 30 jours de non-utilisation reste en vigueur.</li>
+                </ul>
+                <li>Aucun remboursement en cas de bannissement :</li>
+                <ul>
+                    <li>Si un joueur est banni, aucun remboursement ne sera accordé, même si cela entraîne la perte de la propriété pour lui ou ses locataires.</li>
+                </ul>
+                <li>Non-renouvellement de propriété :</li>
+                <ul>
+                    Si un joueur oublie de renouveler sa location, il ne peut pas prétendre à un remboursement, même pour ses locataires.
+                </ul>
+                <li>Obligation de répondre aux agents immobiliers :</li>
+                <ul>
+                    <li>Si un agent immobilier vous contacte pour une incohérence sur votre bien, vous devez lui répondre.</li>
+                    <li>En cas de non-réponse, l'agent est en droit de verrouiller votre propriété jusqu’à ce que vous le contactiez.</li>
+                </ul>
+                <li>Interdiction de vendre l’emplacement d’une propriété :</li>
+                <ul>
+                    <li>Il est strictement interdit de vendre l’emplacement d’un bien (ex. : vendre un emplacement vide pour que l’acheteur y place son propre point de location).</li>
+                </ul>
+            </ul>
+        </ul>
+            <h3>📍 Placement des Propriétés</h3>
+            <ul>
+                <li>Positionnement des propriétés :</li>
+                <ul>
+                    <li>Il est interdit de placer une nouvelle propriété trop proche d’une entrée existante sans validation RP.</li>
+                    <li>Exception : En cas de copropriété, maison mitoyenne ou plusieurs portes d’entrée, une validation d’un référent immobilier est requise.</li>
+                </ul>
+                <li>Emplacements inappropriés :</li>
+                <ul>
+                    <li>Interdiction de positionner une propriété devant des infrastructures techniques (ex. : armoires électriques).</li>
+                </ul>
+            </ul>
+            <h3>🏨 Motel / Caravane</h3>
+            <ul>
+                <li>L’intérieur "Motel" doit être exclusivement réservé aux motels.</li>
+                <li>L’intérieur "Caravane" doit être uniquement utilisé pour des caravanes.</li>
+            </ul>
+            <h3>🚘 Garages & Stationnement</h3>
+            <ul>
+                <li>Positionnement des garages :</li>
+                <ul>
+                    <li>Les garages doivent être placés uniquement en face des portes de garage.</li>
+                    <li>Les garages à plusieurs étages doivent être situés dans des tours pour assurer une cohérence RP.</li>
+                </ul>
+                <li>L’intérieur "Caravane" doit être uniquement utilisé pour des caravanes.</li>
+                <li>Affichage obligatoire :</li>
+                <ul>
+                    <li>Chaque maison doit afficher son intérieur sur la porte principale.</li>
+                    <li>Une maison doit posséder au moins un garage.</li>
+                    <li>En cas de plusieurs garages, seule une représentation de l’intérieur de la maison est permise.</li>
+                </ul>
+            </ul>
+            <h3>⛔ Interdictions Absolues</h3>
+            <p><strong>🚨 Changement de rôle interdit :</strong></p>
+            <ul>
+                <li>Un agent immobilier ne peut pas basculer vers l’illégal, et inversement.</li>
+                <ul>
+                    <li>Toute infraction entraînera un wipe immédiat du personnage + blacklist/bannissement.</li>
+                </ul>
+            </ul>
+        <p><strong>🚨 Activités illégales interdites pour les agents immobiliers :</strong></p>
+            <ul>
+                <li>Aucun agent immobilier ne peut être impliqué dans des activités criminelles telles que :</li>
+                <ul>
+                    <li>Go Fast.</li>
+                    <li>Braquages (supérettes, banques, etc.).</li>
+                    <li>Transferts d’argent bancaires contre de l’argent liquide.</li>
+                    <li>Participation active à un groupe criminel.</li>
+                </ul>
+            </ul>
+            <p><strong>🚨 Interdictions spécifiques liées aux propriétés :</strong></p>
+            <ul>
+                <li>Interdiction de placer une propriété sur un yacht.</li>
+                <li>Interdiction de positionner des motels ou caravanes sur des maisons ou emplacements inappropriés.</li>
+                <li>Interdiction de positionner un garage sur une place de parking publique.</li>
+                <li>Interdiction d’installer des entrepôts ou bureaux à l’arrière d’une maison.</li>
+            </ul>
+            <p><strong>🚨 Interactions avec les agents immobiliers :</strong></p>
+            <ul>
+                <li>Interdiction de braquer un agent immobilier en service pour obtenir des informations sur l’immobilier.</li>
+                <li>Interdiction de fixer un rendez-vous avec un agent immobilier dans le but de le braquer.</li>
+            </ul>
+            <p><strong>🚨 Confidentialité & Abus de système :</strong></p>
+            <ul>
+                <li>Divulgation d’informations confidentielles interdite :</li>
+                <ul>
+                    <li>Toute fuite d’informations sur un client ou une propriété entraînera des sanctions sévères.</li>
+                    <li>Les agents immobiliers sont tenus au secret professionnel.</li>
+                </ul>
+                <li>Sous-location interdite :</li>
+                <ul>
+                    <li>Prendre une propriété à son nom pour masquer le véritable propriétaire (ex. : pour éviter une perquisition) est strictement interdit.</li>
+                </ul>
+            </ul>
+            <p><strong>🚨 Double personnage & rôle immobilier :</strong></p>
+            <ul>
+                <li>Si votre P1 (Personnage 1) est agent immobilier, votre P2 (Personnage 2) ne peut pas être impliqué dans l’illégal et vice versa.</li>
+            </ul>
+            <p><strong>🏡📜 En respectant ces règles, vous contribuez à un RP immobilier réaliste, équitable et structuré.
+
+                Merci de jouer de manière responsable et de respecter les directives mises en place !</strong></p>
+        </div>
+        <div id="death-rp-rules" class="rules-section">
+            <h3>⚰️ Règlement - Mort RP</h3>
+            <p>La <strong>Mort RP</strong> correspond à la <strong>perte définitive</strong> d’un personnage et de ses souvenirs, marquant ainsi <strong>la fin de son histoire</strong>. Le joueur devra alors <strong>créer un nouveau personnage</strong> et repartir sur une <strong>nouvelle trame RP</strong>.</p>
+        
+            <h3>📜 Principes de la Mort RP</h3>
+            <ul>
+                <li><strong>Une Mort RP ne peut être validée sans dossier préalable.</strong></li>
+                <li><strong>Aucune exécution instantanée</strong> n’est autorisée sans validation RP (ex. : <strong>tir en pleine tête, coup de couteau au cœur</strong>).</li>
+                <li><strong>Un tir perdu ou un dommage collatéral</strong> ne constitue pas une exécution RP et <strong>ne peut entraîner une Mort RP sans dossier</strong>.</li>
+                <li><strong>La prison à perpétuité est considérée comme une Mort RP</strong> et doit être validée par un <strong>juge en RP</strong>, avec un dossier de Mort RP approuvé par le <strong>SuperAdmin ou le Fondateur</strong>.</li>
+                <li><strong>Un comportement No Fear ou Power Gaming</strong> peut entraîner une <strong>Mort RP forcée</strong>, décidée par le <strong>SuperAdmin ou le Fondateur</strong>.</li>
+                <li><strong>Une mort médicale est une Mort RP valide</strong>, pouvant être prononcée par un <strong>EMS</strong>, avec validation du <strong>SuperAdmin ou du Fondateur</strong>.</li>
+                <li><strong>Refus de jouer une scène médicale après un grave problème de santé</strong> → <strong>Mort RP automatique</strong>.</li>
+            </ul>
+        
+            <h3>📂 Dossier de Mort RP</h3>
+            <p>Un <strong>dossier de Mort RP</strong> doit être <strong>complet et justifié</strong> pour être accepté par le <strong>SuperAdmin ou le Fondateur</strong>.</p>
+        
+            <h4>📌 Contenu du dossier :</h4>
+            <ul>
+                <li><strong>Explication détaillée</strong> des raisons qui justifient la Mort RP.</li>
+                <li><strong>Preuves solides</strong> (<em>vidéos, captures d’écran, enregistrements écrits, etc.</em>).</li>
+                <li><strong>Récit clair et structuré</strong> du contexte ayant mené à cette décision.</li>
+                <li><strong>Transmission au SuperAdmin ou au Fondateur via un ticket bien rédigé</strong>.</li>
+            </ul>
+            <p>✅ <strong>Format recommandé</strong> : <strong>Google Doc</strong> pour une meilleure lisibilité.</p>
+            <p>Le <strong>SuperAdmin ou le Fondateur</strong> étudiera la demande et décidera de son <strong>acceptation ou refus</strong>.</p>
+        
+            <h3>🔄 Conséquences d’une Mort RP</h3>
+            <ul>
+                <li><strong>Remise à zéro complète du personnage concerné</strong>.</li>
+                <li><strong>Aucune récupération de souvenirs</strong> liés à la vie du personnage défunt.</li>
+                <li><strong>Création d’un nouveau personnage</strong> avec une toute nouvelle identité et histoire.</li>
+            </ul>
+        
+            <p>⚖️🎭 En respectant ces règles, vous contribuez à un <strong>RP immersif, réaliste et équitable</strong>.</p>
+            <p>Merci de <strong>jouer de manière responsable</strong> et d’accepter le destin de vos personnages en fonction des événements RP !</p>
+        </div>
+        
+        <div id="illegal-rules" class="rules-section">
+            <h3>🖥️ Règlement - Discord & RP Illégal</h3>
+    <p>Avant de rejoindre le <strong>Discord illégal de StarsFA</strong>, vous devez impérativement <strong>respecter les règles</strong> ci-dessous. Tout manquement entraînera <strong>des sanctions sévères</strong>.</p>
+
+    <h3>⛔ Interdictions Générales</h3>
+    <ul>
+        <li><strong>Ne pas ping les SuperAdmins sans raison</strong>.</li>
+        <li><strong>Aucune provocation</strong> envers un joueur ou un groupe illégal.</li>
+        <li><strong>Interdiction de publier du contenu inapproprié</strong> (<em>raciste, sexiste, violent, pornographique</em>).</li>
+        <li><strong>Aucune publicité</strong> pour d'autres serveurs ou projets externes.</li>
+        <li><strong>Interdiction de spam</strong> ou d'envoyer des liens en masse.</li>
+        <li><strong>Utilisation des canaux appropriés obligatoire</strong> (<em>RP, discussions, etc.</em>).</li>
+        <li><strong>Un seul compte Discord par joueur autorisé</strong>.</li>
+    </ul>
+
+    <h3>⚠️ Comportement à Adopter</h3>
+    <ul>
+        <li><strong>Respecter tous les membres</strong> → Aucun harcèlement, insulte ou discrimination ne sera toléré.</li>
+        <li><strong>Gérer les conflits de manière mature et respectueuse</strong> → En cas de problème, contacter les <strong>SuperAdmins</strong>.</li>
+        <li><strong>Utiliser un pseudo approprié</strong> sur le serveur Discord.</li>
+        <li><strong>Respecter les décisions</strong> du SuperAdmin et des modérateurs.</li>
+        <li><strong>Les leaders sont responsables</strong> du comportement de leurs membres.</li>
+    </ul>
+
+    <h3>💭 Communication & Organisation</h3>
+    <ul>
+        <li><strong>Demande de rôles obligatoire</strong> pour tous les membres d’un groupe.</li>
+        <li><strong>Respecter les consignes</strong> des référents illégaux.</li>
+        <li><strong>Toute dénonciation doit être accompagnée de preuves</strong> (<em>vidéo, screenshots, logs</em>).</li>
+        <li><strong>Les signalements doivent être clairs</strong> et effectués via un ticket.</li>
+        <li><strong>Le channel "suggestions"</strong> est réservé aux idées d’amélioration du serveur.</li>
+    </ul>
+    <p><strong>🚨 Tout manquement au règlement, en particulier un comportement toxique, sera sévèrement sanctionné.</strong></p>
+    <p><strong>📌 Un bannissement du Discord illégal peut entraîner un bannissement IG.</strong></p>
+
+    <h3>📜 Introduction au RP Illégal</h3>
+    <p>Vous démarrez votre histoire en tant que <strong>civil</strong>. Pour rejoindre le RP illégal, vous devez :</p>
+    <ul>
+        <li><strong>Créer un groupe de petites frappes</strong> (max <strong>10 membres</strong>).</li>
+        <li><strong>Accomplir des missions illégales</strong> pour gagner en crédibilité dans les quartiers de Los Santos.</li>
+        <li>Ouvrir un <strong>ticket auprès du SuperAdmin</strong> pour valider votre groupe.</li>
+    </ul>
+
+    <h3>🎯 Comment valider son groupe ?</h3>
+    <ul>
+        <li><strong>RP cohérent et sérieux</strong> dès la phase de petite frappe.</li>
+        <li><strong>Dossier détaillé (G.Slide recommandé)</strong> :
+            <ul>
+                <li><strong>Histoire et lore</strong> du groupe.</li>
+                <li><strong>Nom du groupe et liste des membres</strong>.</li>
+                <li><strong>Motivations RP et objectifs</strong>.</li>
+                <li><strong>Tout élément permettant d’évaluer votre sérieux et votre engagement RP.</strong></li>
+            </ul>
+        </li>
+        <li><strong>Passer un entretien oral</strong> avec les SuperAdmins pour valider définitivement votre groupe.</li>
+        <li>Réponse sous 1 à 2 jours après l’entretien.</li>
+    </ul>
+    <p><strong>🚨 Un bon RP et une bonne organisation augmentent considérablement vos chances d’être validé !</strong></p>
+
+    <h3>🚫 Règles Générales du RP Illégal</h3>
+    <ul>
+        <li>Ne pas utiliser les pseudos Discord en RP → Toute référence HRP est interdite.</li>
+        <li>Interdiction de tirer lors d’une négociation avec otages → Sinon, l’otage est soumis à une Mort RP.</li>
+        <li>Tenue adaptée au lore du groupe obligatoire.</li>
+        <li>Interdiction de retourner dans son quartier après une course-poursuite.</li>
+        <li>Respect du Fear RP obligatoire face aux forces de l’ordre.</li>
+        <li>Ne pas rusher les otages.</li>
+        <li>Interdiction d’agir avec un groupe sans être officiellement recruté.</li>
+        <li>Interdiction de recruter des indépendants ou petites frappes pour attaquer un groupe officiel.</li>
+        <li>Un otage non secouru par son groupe s’expose à une Mort RP.</li>
+        <li>Ne pas camper un quartier ou un QG.</li>
+        <li>Interdiction d’engager une fusillade depuis ou dans un quartier.</li>
+        <li>Interdiction des "plans pneus" (tirer sur les pneus pour s’échapper).</li>
+        <li>Mentir sur ses blessures est interdit → Si vous prenez une balle, vous ne pouvez pas dire que vous êtes tombé d’une échelle.</li>
+        <li>Tenue adaptée au lore du groupe obligatoire.</li>
+        <li>Les alliances entre groupes du même type sont interdites.</li>
+    </ul>
+    <p><strong>Exemples :</strong></p>
+    <p><strong>✅ Une organisation peut collaborer avec un gang ou un MC.</strong></p>
+    <p><strong>❌ Une organisation ne peut pas s’allier à une autre organisation.</strong></p>
+    <p><strong>❌ Un gang ne peut pas s’allier à un autre gang.</strong></p>
+
+
+    <h3>🔪 Prises d’Otages & Fusillades</h3>
+
+    <h4>🔎 Précisions sur les prises d’otages</h4>
+    <ul>
+        <li>Un membre des services publics pris en otage s’expose à une peine de prison à perpétuité ou à une Mort RP.</li>
+        <li>Les prises d’otages sur les forces de l’ordre doivent rester exceptionnelles.</li>
+    </ul>
+
+    <h4>💀 Un otage peut être tué si :</h4>
+    <ul>
+        <li>Son groupe n’intervient pas pour le récupérer.</li>
+        <li>Il ne respecte pas son Fear RP.</li>
+    </ul>
+
+    <h4>⛔ Interdictions liées aux otages :</h4>
+    <ul>
+        <li>Utiliser de faux otages</li>
+        <li>Attendre devant un quartier pour kidnapper des joueurs.</li>
+        <li>Braquer un groupe qui détient déjà un de vos membres en otage.</li>
+        <li>Prendre un otage sans justification RP cohérente.</li>
+        <li>Demander une rançon de plus de 5 000 $.</li>
+        <li>Échanger un otage contre des armes à feu, munitions ou armes blanches.</li>
+        <li>Prendre en otage un EMS en service sans validation du SuperAdmin.</li>
+        <li>Forcer un otage à jouer une scène humiliante ou à caractère sexuel.</li>
+    </ul>
+
+    <h4>🔫 Règles des fusillades</h4>
+    <ul>
+        <li>Un gunfight est un dernier recours RP → Soyez créatifs et privilégiez le RP avant d’utiliser une arme.</li>
+        <li>Il est interdit de :</li>
+        <ul>
+        <li>Déclencher un gunfight sans interaction RP préalable.</li>
+        <li>Engager un gunfight plus d’une fois par soirée.</li>
+        <li>Se venger après une fusillade si vous avez été réanimé par un EMS.</li>
+        <li>Prendre une hauteur avant qu’un gunfight soit engagé.</li>
+        <li>Utiliser une arme blanche pendant un gunfight.</li>
+        <li>Feindre une blessure pour surprendre un ennemi (ragdoll abusif).</li>
+        <li>Ramasser des corps (coma) quand un service public est sur place.</li>
+    </ul>   
+    </ul>
+    <p><strong>🚨 Le SuperAdmin se réserve le droit d’appliquer une Mort RP si un joueur participe trop souvent à des gunfights abusifs.</strong></p>
+
+    <h3>💣 Drogues & Armes</h3>
+    <ul>
+        <li>Interdiction de vendre de la drogue en Zone Safe.</li>
+        <li>La vente aux PNJ est interdite pour les organisations.</li>
+        <li>Aucune transaction illégale à moins de 3km du QG.</li>
+        <li>Interdiction de planter ou fabriquer dans des endroits incohérents (toits, montagnes, Zone Safe).</li>
+        <li>Les armes ne peuvent être vendues que sur DarkChat.</li>
+        <li>Briser l’économie des armes (prix abusifs) est interdit.</li>
+        <li>Interdiction d’avoir une arme lourde + une arme auto sur soi.</li>
+        <li>Interdiction de transférer des armes entre ses propres personnages.</li>
+        <li>📌 En respectant ces règles, vous garantissez un RP sérieux, immersif et équilibré.Toute infraction sera sanctionnée. </li>
+    </ul>
+
+    <p>📌 <strong>En respectant ces règles, vous garantissez un RP sérieux, immersif et équilibré.</strong> Toute infraction sera sanctionnée.</p>
+        </div>
+
+        <div id="notionrp-rules" class="rules-section">
+            <h3>📒 Notions / Lexiques du RolePlay</h3>
+
+    <h4>PowerGaming</h4>
+    <p>Réaliser des actions impossibles dans la réalité ou abuser des mécaniques du jeu sans justification RP valide.</p>
+
+    <h4>MetaGaming</h4>
+    <p>Exploiter des informations obtenues hors RP (stream, discussions hors jeu) pour avantager son personnage en jeu.</p>
+
+    <h4>PainRP</h4>
+    <p>Représenter de manière réaliste la douleur de son personnage en fonction des blessures reçues, sans minimiser l'impact.</p>
+
+    <h4>NoFear</h4>
+    <p>Ignorer la peur dans des situations où la vie de son personnage est menacée (ex. : être braqué et agir comme si de rien n’était).</p>
+
+    <h4>FreeKill</h4>
+    <p>Tuer un joueur sans raison RP, sans interaction ou sans justification scénaristique valide.</p>
+
+    <h4>Force RP</h4>
+    <p>Imposer une action ou un scénario à un joueur sans lui laisser d'alternative RP crédible. Cela inclut le harcèlement RP ou le Stream Stalk.</p>
+
+    <h4>FairPlay</h4>
+    <p>Adopter une attitude respectueuse du RP et des autres joueurs. Le but est de privilégier l’immersion et l’amusement collectif plutôt que de chercher à "gagner" à tout prix.</p>
+
+    <h4>WinRP</h4>
+    <p>Forcer les événements pour toujours avoir le dessus en RP, en refusant toute issue négative ou en contournant les règles pour éviter la défaite.</p>
+
+    <h4>StreamHack</h4>
+    <p>Se servir d’un live ou d’une rediffusion pour obtenir des informations sur d'autres joueurs et les exploiter en jeu. Passible d’un ban permanent.</p>
+
+    <h4>Usebug</h4>
+    <p>Profiter intentionnellement d'un bug du jeu pour obtenir un avantage (ex. : glitch pour traverser les murs, exploit de duplication d’objets).</p>
+
+    <h4>Carkill</h4>
+    <p>Utiliser un véhicule comme arme pour tuer un joueur volontairement sans raison RP valable.</p>
+
+    <h4>Drive by</h4>
+    <p>Ouvrir le feu en conduisant un véhicule en mouvement. Autorisé uniquement à vitesse réduite (< 15 km/h) et sans tirer directement pour tuer.</p>
+
+    <h4>Copbait</h4>
+    <p>Provoquer les forces de l'ordre sans raison valable pour forcer une interaction RP ou une course-poursuite.</p>
+
+    <h4>FreeLoot</h4>
+    <p>Piller un joueur sans scène RP préalable ou sans qu'un échange crédible ait eu lieu avant.</p>
+
+    <h4>Cohérence RP</h4>
+    <p>Respecter la logique et la personnalité de son personnage en toutes circonstances, en prenant en compte son passé, ses valeurs et ses compétences.</p>
+
+    <h3>⚠️ Comportement en Zone Safe</h3>
+    <p>Les zones safes sont des lieux où les actions illégales sont strictement interdites. Cela inclut :</p>
+    <ul>
+        <li>Aucune agression, vol ou enlèvement.</li>
+        <li>Interdiction de braquer ou d’attaquer un joueur.</li>
+        <li>Ne pas se réfugier dans une zone safe pour éviter une scène RP en cours.</li>
+    </ul>
+    <p>Les zones safes s’étendent sur un périmètre de <strong>100 mètres</strong> autour des lieux suivants :</p>
+    <ul>
+        <li><strong>Commissariat</strong></li>
+        <li><strong>Gouvernement</strong></li>
+        <li><strong>Palais de justice</strong></li>
+        <li><strong>Hôpital</strong></li>
+    </ul>
+            </div>
+
+
+
+    </div>
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"90f0ff6b3ffdd118","version":"2025.1.0","r":1,"token":"7eeac554aa7b426dbece6c16e939562e","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}}}' crossorigin="anonymous"></script>
+</body>
+<script>
+    document.addEventListener("mousemove", (e) => {
+        let trail = document.createElement("div");
+        trail.classList.add("trail");
+        document.body.appendChild(trail);
+
+        // Positionne la traînée à la position de la souris
+        trail.style.left = `${e.clientX}px`;
+        trail.style.top = `${e.clientY}px`;
+
+        // Supprime la traînée après l'animation
+        setTimeout(() => {
+            trail.remove();
+        }, 500);
+    });
+</script>
+</html>
